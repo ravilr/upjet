@@ -146,15 +146,7 @@ func getExtendedParameters(ctx context.Context, tr resource.Terraformed, externa
 		return nil, errors.Wrap(err, "cannot get ID")
 	}
 	params["id"] = tfID
-	// we need to parameterize the following for a provider
-	// not all providers may have this attribute
-	// TODO: tags-tags_all implementation is AWS specific.
-	// Consider making this logic independent of provider.
-	if cfg.TerraformResource != nil {
-		if _, ok := cfg.TerraformResource.CoreConfigSchema().Attributes["tags_all"]; ok {
-			params["tags_all"] = params["tags"]
-		}
-	}
+
 	return cfg.ApplyTFConversions(params, config.ToTerraform)
 }
 
