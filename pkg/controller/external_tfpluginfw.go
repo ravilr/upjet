@@ -152,7 +152,12 @@ func (c *TerraformPluginFrameworkConnector) Connect(ctx context.Context, mg xpre
 			return nil, errors.Wrap(err, "cannot store sensitive parameters into tfState")
 		}
 		c.config.ExternalName.SetIdentifierArgumentFn(tfState, externalName)
-		tfState["id"] = params["id"]
+		val, ok := params["id"]
+		if ok {
+			tfState["id"] = val
+		} else {
+			tfState["id"] = ""
+		}
 		if copyParams {
 			tfState = copyParameters(tfState, params)
 		}
