@@ -145,7 +145,9 @@ func getExtendedParameters(ctx context.Context, tr resource.Terraformed, externa
 	if err != nil {
 		return nil, errors.Wrap(err, "cannot get ID")
 	}
-	params["id"] = tfID
+	if tfID != "" {
+		params["id"] = tfID
+	}
 
 	return cfg.ApplyTFConversions(params, config.ToTerraform)
 }
