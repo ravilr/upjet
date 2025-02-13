@@ -48,6 +48,12 @@ func v2ResourceFromTFJSONSchema(s *tfjson.Schema) *schemav2.Resource {
 
 	for k, v := range s.Block.Attributes {
 		if v.AttributeNestedType != nil {
+			// plugin Framework Resource's top level CRUD timeouts are not part of the generated MR API.
+			// timeouts defined as nested attribute:
+			// https://developer.hashicorp.com/terraform/plugin/framework/resources/timeouts#specifying-timeouts-in-configuration
+			if k == schemav2.TimeoutsConfigKey {
+				continue
+			}
 			toSchemaMap[k] = tfJSONNestedAttributeTypeToV2Schema(v.AttributeNestedType)
 		} else {
 			toSchemaMap[k] = tfJSONAttributeToV2Schema(v)
