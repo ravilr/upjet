@@ -247,6 +247,9 @@ func (n *terraformPluginFrameworkExternalClient) filteredDiffExists(rawDiff []tf
 			filteredDiff = append(filteredDiff, diff)
 		}
 	}
+	if len(filteredDiff) > 0 {
+		n.logger.Debug("Diff detected", "filteredDiff", fmt.Sprintf("%v", filteredDiff))
+	}
 	return len(filteredDiff) > 0
 }
 
