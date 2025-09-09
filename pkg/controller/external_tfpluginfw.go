@@ -156,7 +156,9 @@ func (c *TerraformPluginFrameworkConnector) Connect(ctx context.Context, mg xpre
 		if ok {
 			tfState["id"] = val
 		} else {
-			tfState["id"] = ""
+			// initialize the resource identifier in the tf state
+			// to `unknown` for new resources without external id set.
+			tfState["id"] = "unknown"
 		}
 		if copyParams {
 			tfState = copyParameters(tfState, params)
